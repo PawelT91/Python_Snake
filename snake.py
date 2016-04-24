@@ -4,6 +4,8 @@ __version__ = 1.0
 import turtle
 import time
 import random
+import sys
+from tkinter import *
 
 
 class Figure(object):
@@ -197,9 +199,7 @@ def end():
     return game
 
 
-def main():
-
-
+def game():
     game = 1
     turtle.tracer(0, 0)
     turtle.hideturtle()
@@ -228,6 +228,32 @@ def main():
     turtle.home()
     turtle.write("Вы проиграли!!!", font=("Arial", 20, "bold"), align="right")
     time.sleep(2)
+
+
+def main():
+    colors = ['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'purple']
+
+    def onSpam():
+        popup = Toplevel()
+        color = random.choice(colors)
+        Label(popup, text='Popup', bg='black', fg=color).pack(fill=BOTH)
+        mainLabel.config(fg=color)
+
+    def onFlip():
+        mainLabel.config(fg=random.choice(colors))
+        main.after(250, onFlip)
+
+    def exi():
+        sys.exit()
+
+    main = Tk()
+    mainLabel = Label(main, text='Игра змейка', relief=RAISED)
+    mainLabel.config(font=('arial', 30, 'italic'),fg='cyan',bg='navy')
+    mainLabel.pack(side=TOP, expand=YES, fill=BOTH)
+    Button(main, text='Новая игра', command=onSpam).pack(fill=X)
+    Button(main, text='Рекорды', command=onFlip).pack(fill=X)
+    Button(main, text='Выход', command=exi).pack(fill=X)
+    main.mainloop()
 
 if __name__ == '__main__':
     main()
